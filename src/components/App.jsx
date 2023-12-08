@@ -12,6 +12,7 @@ import {
   selectError,
   selectIsLoading,
 } from 'redux/contacts/contactSelectors';
+import { Loader } from './Loader/Loader';
 
 export const App = () => {
   const contacts = useSelector(selectContacts);
@@ -25,7 +26,7 @@ export const App = () => {
 
   return (
     <Container>
-      {isLoading && !error && <b>Request in progress...</b>}
+      {isLoading && !error && <Loader />}
       <h1>Phonebook</h1>
       <PhoneForm />
       <h2>Contacts</h2>
