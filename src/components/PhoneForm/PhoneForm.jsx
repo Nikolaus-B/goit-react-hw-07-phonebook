@@ -11,7 +11,7 @@ import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 import { Notify } from 'notiflix';
 import { addContact } from 'redux/operations';
-import { getContacts } from 'redux/contacts/contactSelectors';
+import { selectContacts } from 'redux/contacts/contactSelectors';
 
 const PhonebookSchema = Yup.object().shape({
   name: Yup.string()
@@ -26,7 +26,7 @@ const PhonebookSchema = Yup.object().shape({
 
 export const PhoneForm = () => {
   const dispatch = useDispatch();
-  const contacts = useSelector(getContacts);
+  const contacts = useSelector(selectContacts);
   return (
     <FormContainer>
       <Formik

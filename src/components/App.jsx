@@ -7,10 +7,16 @@ import { NoPhoneMessage } from './NoPhoneMessage/NoPhoneMessage';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchContacts } from 'redux/operations';
 import { useEffect } from 'react';
-import { getContacts } from 'redux/contacts/contactSelectors';
+import {
+  selectContacts,
+  selectError,
+  selectIsLoading,
+} from 'redux/contacts/contactSelectors';
 
 export const App = () => {
-  const contacts = useSelector(getContacts);
+  const contacts = useSelector(selectContacts);
+  const isLoading = useSelector(selectIsLoading);
+  const error = useSelector(selectError);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -19,6 +25,7 @@ export const App = () => {
 
   return (
     <Container>
+      {isLoading && !error && <b>Request in progress...</b>}
       <h1>Phonebook</h1>
       <PhoneForm />
       <h2>Contacts</h2>

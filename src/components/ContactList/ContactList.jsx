@@ -5,34 +5,17 @@ import {
   PhonebookList,
   PhonebookNumber,
 } from './ContactList.styled';
-
 import { Notify } from 'notiflix';
 import { deleteContact } from 'redux/operations';
-import { getContacts } from 'redux/contacts/contactSelectors';
-import { selectFilter } from 'redux/filter/filterSelectots';
+import { filterContacts } from 'redux/contacts/contactSelectors';
 
 export const ContactList = () => {
   const dispatch = useDispatch();
-  const filter = useSelector(selectFilter);
-  const contacts = useSelector(getContacts);
-
-  const filterContacts = () => {
-    return contacts.filter(contact => {
-      const contactName = contact.contact.name.toLowerCase();
-      const contactNumber = contact.contact.number;
-
-      return (
-        contactName.includes(filter.toLowerCase()) ||
-        contactNumber.includes(filter)
-      );
-    });
-  };
-
-  const filteredUsers = filterContacts();
+  const contacts = useSelector(filterContacts);
 
   return (
     <PhonebookList>
-      {filteredUsers.map(item => {
+      {contacts.map(item => {
         return (
           <PhonebookItem key={item.id}>
             <p>
