@@ -5,19 +5,21 @@ import {
   PhonebookList,
   PhonebookNumber,
 } from './ContactList.styled';
-import { deleteContact, getContacts } from 'redux/contacts/contactsSlice';
-import { getFilter } from 'redux/filter/filterSlice';
+
 import { Notify } from 'notiflix';
+import { deleteContact } from 'redux/operations';
+import { getContacts } from 'redux/contacts/contactSelectors';
+import { selectFilter } from 'redux/filter/filterSelectots';
 
 export const ContactList = () => {
   const dispatch = useDispatch();
-  const filter = useSelector(getFilter);
+  const filter = useSelector(selectFilter);
   const contacts = useSelector(getContacts);
 
   const filterContacts = () => {
     return contacts.filter(contact => {
-      const contactName = contact.name.toLowerCase();
-      const contactNumber = contact.number;
+      const contactName = contact.contact.name.toLowerCase();
+      const contactNumber = contact.contact.number;
 
       return (
         contactName.includes(filter.toLowerCase()) ||
@@ -34,12 +36,15 @@ export const ContactList = () => {
         return (
           <PhonebookItem key={item.id}>
             <p>
-              {item.name}: <PhonebookNumber>{item.number}</PhonebookNumber>
+              {item.contact.name}:{' '}
+              <PhonebookNumber>{item.contact.number}</PhonebookNumber>
             </p>
             <PhonebookButton
               onClick={() => {
-                Notify.info(`${item.name} removed from your phone book`);
-                dispatch(deleteContact({ id: item.id, name: item.name }));
+                Notify.info(
+                  `${item.contact.name} removed from your phone book`
+                );
+                dispatch(deleteContact(item.id));
               }}
             >
               Delete

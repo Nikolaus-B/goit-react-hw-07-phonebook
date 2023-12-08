@@ -9,9 +9,9 @@ import {
 } from './PhoneForm.styled';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
-import { addContact, getContacts } from 'redux/contacts/contactsSlice';
 import { Notify } from 'notiflix';
-import { nanoid } from 'nanoid';
+import { addContact } from 'redux/operations';
+import { getContacts } from 'redux/contacts/contactSelectors';
 
 const PhonebookSchema = Yup.object().shape({
   name: Yup.string()
@@ -37,12 +37,12 @@ export const PhoneForm = () => {
         validationSchema={PhonebookSchema}
         onSubmit={(values, actions) => {
           actions.resetForm();
-          if (contacts.some(contact => contact.name === values.name)) {
+          if (contacts.some(contact => contact.contact.name === values.name)) {
             Notify.failure(`${values.name} already in phonebook`);
             return;
           }
           Notify.success(`${values.name} added to your contacts`);
-          dispatch(addContact({ ...values, id: nanoid() }));
+          dispatch(addContact(values));
         }}
       >
         <Form>

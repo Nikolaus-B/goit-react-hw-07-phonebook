@@ -1,10 +1,11 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { SearchContainer, SearchInput } from './Filter.styled';
-import { changeFilter, getFilter } from 'redux/filter/filterSlice';
+import { changeFilter } from 'redux/filter/filterSlice';
+import { selectFilter } from 'redux/filter/filterSelectots';
 
 export const Filter = () => {
   const dispatch = useDispatch();
-  const filter = useSelector(getFilter);
+  const filter = useSelector(selectFilter);
 
   return (
     <SearchContainer>

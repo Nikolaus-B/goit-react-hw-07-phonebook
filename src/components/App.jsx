@@ -4,11 +4,18 @@ import { ContactList } from './ContactList/ContactList';
 import { GlobalStyle } from './GlobalStyle';
 import { Container } from './MainPageStyle.styled';
 import { NoPhoneMessage } from './NoPhoneMessage/NoPhoneMessage';
-import { useSelector } from 'react-redux';
-import { getContacts } from 'redux/contacts/contactsSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchContacts } from 'redux/operations';
+import { useEffect } from 'react';
+import { getContacts } from 'redux/contacts/contactSelectors';
 
 export const App = () => {
   const contacts = useSelector(getContacts);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
 
   return (
     <Container>
