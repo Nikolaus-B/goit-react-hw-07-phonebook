@@ -6,7 +6,7 @@ import {
   PhonebookNumber,
 } from './ContactList.styled';
 import { Notify } from 'notiflix';
-import { deleteContact } from 'redux/operations';
+import { deleteContact } from 'redux/contacts/operations';
 import { filterContacts } from 'redux/contacts/contactSelectors';
 
 export const ContactList = () => {
@@ -19,14 +19,11 @@ export const ContactList = () => {
         return (
           <PhonebookItem key={item.id}>
             <p>
-              {item.contact.name}:{' '}
-              <PhonebookNumber>{item.contact.number}</PhonebookNumber>
+              {item.name}: <PhonebookNumber>{item.number}</PhonebookNumber>
             </p>
             <PhonebookButton
               onClick={() => {
-                Notify.info(
-                  `${item.contact.name} removed from your phone book`
-                );
+                Notify.info(`${item.name} removed from your phone book`);
                 dispatch(deleteContact(item.id));
               }}
             >

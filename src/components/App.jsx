@@ -5,7 +5,7 @@ import { GlobalStyle } from './GlobalStyle';
 import { Container } from './MainPageStyle.styled';
 import { NoPhoneMessage } from './NoPhoneMessage/NoPhoneMessage';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchContacts } from 'redux/operations';
+import { fetchContacts } from 'redux/contacts/operations';
 import { useEffect } from 'react';
 import {
   selectContacts,

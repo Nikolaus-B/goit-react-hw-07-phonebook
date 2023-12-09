@@ -10,7 +10,7 @@ import {
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 import { Notify } from 'notiflix';
-import { addContact } from 'redux/operations';
+import { addContact } from 'redux/contacts/operations';
 import { selectContacts } from 'redux/contacts/contactSelectors';
 
 const PhonebookSchema = Yup.object().shape({
@@ -35,14 +35,24 @@ export const PhoneForm = () => {
           number: '',
         }}
         validationSchema={PhonebookSchema}
-        onSubmit={(values, actions) => {
+        onSubmit={async (values, actions) => {
           actions.resetForm();
-          if (contacts.some(contact => contact.contact.name === values.name)) {
+
+          const isDublicate = contacts.some(
+            contact => contact.name.toLowerCase() === values.name.toLowerCase()
+          );
+
+          if (isDublicate) {
             Notify.failure(`${values.name} already in phonebook`);
             return;
           }
-          Notify.success(`${values.name} added to your contacts`);
-          dispatch(addContact(values));
+
+          try {
+            await dispatch(addContact(values)).unwrap();
+            Notify.success(`${values.name} added to your contacts`);
+          } catch (error) {
+            Notify.failure(error.message);
+          }
         }}
       >
         <Form>
